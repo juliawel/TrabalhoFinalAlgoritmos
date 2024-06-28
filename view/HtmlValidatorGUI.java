@@ -76,20 +76,20 @@ public class HtmlValidatorGUI extends JFrame {
                     if (openTagEnd == -1) break;
 
                     HtmlTag tag = new HtmlTag(line.substring(openTagStart, openTagEnd + 1));
-                    if (tag.isOpeningTag && !tag.isSingletonTag) {
+                    if (tag.isOpeningTag() && !tag.isSingletonTag()) {
                         stack.push(tag);
-                    } else if (!tag.isOpeningTag) {
+                    } else if (!tag.isOpeningTag()) {
                         if (stack.isEmpty()) {
-                            resultArea.setText("Erro: tag final inesperada " + tag.name);
+                            resultArea.setText("Erro: tag final inesperada " + tag.getName());
                             return;
                         }
                         HtmlTag openTag = stack.pop();
                         if (!tag.matches(openTag)) {
-                            resultArea.setText("Erro: esperava " + openTag.name + " mas encontrou " + tag.name);
+                            resultArea.setText("Erro: esperava " + openTag.getName() + " mas encontrou " + tag.getName());
                             return;
                         }
                     }
-                    if (!tag.isOpeningTag || !tag.isSingletonTag) {
+                    if (tag.isOpeningTag() || tag.isSingletonTag()) {
                         counter.addTag(tag);
                     }
 
@@ -105,7 +105,7 @@ public class HtmlValidatorGUI extends JFrame {
             resultArea.setText("Erro: faltam tags finais.");
             while (!stack.isEmpty()) {
                 HtmlTag openTag = stack.pop();
-                resultArea.append("\nEsperava " + openTag.name);
+                resultArea.append("\nEsperava " + openTag.getName());
             }
             return;
         }
@@ -124,4 +124,3 @@ public class HtmlValidatorGUI extends JFrame {
         });
     }
 }
-

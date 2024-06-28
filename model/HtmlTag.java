@@ -1,8 +1,9 @@
 package model;
+
 public class HtmlTag {
-    String name;
-    boolean isOpeningTag;
-    boolean isSingletonTag;
+    private String name;
+    private boolean isOpeningTag;
+    private boolean isSingletonTag;
 
     public HtmlTag(String tag) {
         // Remover <> e verificar se é uma tag final
@@ -17,9 +18,9 @@ public class HtmlTag {
             } else {
                 this.name = tag.substring(1, tag.length() - 1).toLowerCase();
             }
-            this.isOpeningTag = !this.name.startsWith("/");
+            this.isOpeningTag = true;
         }
-        
+
         // Verificar se é uma singleton tag
         String[] singletons = {"meta", "base", "br", "col", "command", "embed", "hr", "img", "input", "link", "param", "source", "!doctype"};
         for (String singleton : singletons) {
@@ -32,5 +33,17 @@ public class HtmlTag {
 
     public boolean matches(HtmlTag other) {
         return this.name.equals(other.name) && this.isOpeningTag != other.isOpeningTag;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public boolean isOpeningTag() {
+        return isOpeningTag;
+    }
+
+    public boolean isSingletonTag() {
+        return isSingletonTag;
     }
 }
