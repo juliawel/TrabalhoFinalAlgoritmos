@@ -26,10 +26,15 @@ public class HtmlValidatorGUI extends JFrame {
         JLabel filePathLabel = new JLabel("Arquivo:");
         filePathField = new JTextField();
         JButton analyzeButton = new JButton("Analisar");
+        JButton browseButton = new JButton("Procurar");
+
+        JPanel buttonPanel = new JPanel(new BorderLayout());
+        buttonPanel.add(browseButton, BorderLayout.WEST);
+        buttonPanel.add(analyzeButton, BorderLayout.EAST);
 
         topPanel.add(filePathLabel, BorderLayout.WEST);
         topPanel.add(filePathField, BorderLayout.CENTER);
-        topPanel.add(analyzeButton, BorderLayout.EAST);
+        topPanel.add(buttonPanel, BorderLayout.EAST);
 
         resultArea = new JTextArea();
         resultArea.setEditable(false);
@@ -45,6 +50,18 @@ public class HtmlValidatorGUI extends JFrame {
 
         add(topPanel, BorderLayout.NORTH);
         add(splitPane, BorderLayout.CENTER);
+
+        browseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showOpenDialog(null);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+                    filePathField.setText(selectedFile.getAbsolutePath());
+                }
+            }
+        });
 
         analyzeButton.addActionListener(new ActionListener() {
             @Override
