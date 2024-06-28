@@ -1,4 +1,5 @@
 package model;
+
 public class Node {
     HtmlTag tag;
     Node next;

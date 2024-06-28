@@ -1,4 +1,5 @@
 package model;
+
 public class TagCounter {
     TagNode[] tags;
     int size;
@@ -10,7 +11,7 @@ public class TagCounter {
 
     public void addTag(HtmlTag tag) {
         for (int i = 0; i < size; i++) {
-            if (tags[i].tagName.equals(tag.name)) {
+            if (tags[i].getTagName().equals(tag.getName())) {
                 tags[i].increment();
                 return;
             }
@@ -18,7 +19,7 @@ public class TagCounter {
         if (size == tags.length) {
             resize();
         }
-        tags[size++] = new TagNode(tag.name);
+        tags[size++] = new TagNode(tag.getName());
     }
 
     private void resize() {
@@ -31,7 +32,7 @@ public class TagCounter {
         TagNode[] result = new TagNode[size];
         System.arraycopy(tags, 0, result, 0, size);
         // Ordenar por nome
-        java.util.Arrays.sort(result, (a, b) -> a.tagName.compareTo(b.tagName));
+        java.util.Arrays.sort(result, (a, b) -> a.getTagName().compareTo(b.getTagName()));
         return result;
     }
 }

@@ -1,7 +1,8 @@
 package model;
+
 public class TagNode {
-    String tagName;
-    int count;
+    private String tagName;
+    private int count;
 
     public TagNode(String tagName) {
         this.tagName = tagName;
@@ -11,4 +12,13 @@ public class TagNode {
     public void increment() {
         this.count++;
     }
+
+    public String getTagName() {
+        return tagName;
+    }
+
+    public int getCount() {
+        return count;
+    }
+    
 }

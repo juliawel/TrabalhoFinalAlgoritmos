@@ -1,4 +1,5 @@
 package model;
+
 import java.io.*;
 
 public class HtmlValidator {
@@ -29,20 +30,20 @@ public class HtmlValidator {
                     if (openTagEnd == -1) break;
 
                     HtmlTag tag = new HtmlTag(line.substring(openTagStart, openTagEnd + 1));
-                    if (tag.isOpeningTag && !tag.isSingletonTag) {
+                    if (tag.isOpeningTag()&& !tag.isSingletonTag()) {
                         stack.push(tag);
-                    } else if (!tag.isOpeningTag) {
+                    } else if (!tag.isOpeningTag()) {
                         if (stack.isEmpty()) {
-                            System.out.println("Erro: tag final inesperada " + tag.name);
+                            System.out.println("Erro: tag final inesperada " + tag.getName());
                             return;
                         }
                         HtmlTag openTag = stack.pop();
                         if (!tag.matches(openTag)) {
-                            System.out.println("Erro: esperava " + openTag.name + " mas encontrou " + tag.name);
+                            System.out.println("Erro: esperava " + openTag.getName() + " mas encontrou " + tag.getName());
                             return;
                         }
                     }
-                    if (!tag.isOpeningTag || !tag.isSingletonTag) {
+                    if (!tag.isOpeningTag() || !tag.isSingletonTag()) {
                         counter.addTag(tag);
                     }
 
@@ -57,7 +58,7 @@ public class HtmlValidator {
             System.out.println("Erro: faltam tags finais.");
             while (!stack.isEmpty()) {
                 HtmlTag openTag = stack.pop();
-                System.out.println("Esperava " + openTag.name);
+                System.out.println("Esperava " + openTag.getName());
             }
             return;
         }
@@ -65,7 +66,7 @@ public class HtmlValidator {
         System.out.println("Arquivo bem formatado.");
         TagNode[] sortedTags = counter.getSortedTags();
         for (TagNode tagNode : sortedTags) {
-            System.out.println(tagNode.tagName + ": " + tagNode.count);
+            System.out.println(tagNode.getTagName() + ": " + tagNode.getCount());
         }
     }
 }

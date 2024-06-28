@@ -113,7 +113,7 @@ public class HtmlValidatorGUI extends JFrame {
         resultArea.setText("O arquivo está bem formatado.");
         TagNode[] sortedTags = counter.getSortedTags();
         for (TagNode tagNode : sortedTags) {
-            tableModel.addRow(new Object[]{tagNode.tagName, tagNode.count});
+            tableModel.addRow(new Object[]{tagNode.getTagName(), tagNode.getCount()});
         }
     }
 
