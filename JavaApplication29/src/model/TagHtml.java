@@ -18,7 +18,8 @@ public class TagHtml {
     }
 
     private boolean isSingleton(String name) {
-        String[] singletons = {"meta", "base", "br", "col", "command", "embed", "hr", "img", "input", "link", "param", "source", "!doctype"};
+        String[] singletons = {"meta", "base", "br", "col", "command", "embed", "hr", 
+            "img", "input", "link", "param", "source", "!doctype"};
         for (String singleton : singletons) {
             if (name.equals(singleton)) {
                 return true;

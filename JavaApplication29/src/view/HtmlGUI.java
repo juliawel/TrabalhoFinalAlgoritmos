@@ -79,7 +79,7 @@ public class HtmlGUI extends JFrame {
         resultArea.setText("");
         tableModel.setRowCount(0);
 
-        Pilha stack = new Pilha(100); // Capacidade inicial da pilha definida como 100
+        Pilha stack = new Pilha(100); 
         ContarTags contador = new ContarTags();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
