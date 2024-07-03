@@ -1,11 +1,10 @@
 package model;
 
 public class Stack {
-    Node top;
+    private Node top;
 
     public void push(HtmlTag tag) {
-        Node newNode = new Node(tag, top);
-        top = newNode;
+        top = new Node(tag, top);
     }
 
     public HtmlTag pop() {
@@ -16,8 +15,7 @@ public class Stack {
     }
 
     public HtmlTag peek() {
-        if (top == null) return null;
-        return top.tag;
+        return top == null ? null : top.tag;
     }
 
     public boolean isEmpty() {

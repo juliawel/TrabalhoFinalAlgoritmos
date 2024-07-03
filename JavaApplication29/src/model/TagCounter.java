@@ -1,12 +1,14 @@
 package model;
 
+import java.util.Arrays;
+
 public class TagCounter {
-    TagNode[] tags;
-    int size;
+    private TagNode[] tags;
+    private int size;
 
     public TagCounter() {
-        tags = new TagNode[100];
-        size = 0;
+        this.tags = new TagNode[100];
+        this.size = 0;
     }
 
     public void addTag(HtmlTag tag) {
@@ -23,16 +25,12 @@ public class TagCounter {
     }
 
     private void resize() {
-        TagNode[] newTags = new TagNode[tags.length * 2];
-        System.arraycopy(tags, 0, newTags, 0, tags.length);
-        tags = newTags;
+        tags = Arrays.copyOf(tags, tags.length * 2);
     }
 
     public TagNode[] getSortedTags() {
-        TagNode[] result = new TagNode[size];
-        System.arraycopy(tags, 0, result, 0, size);
-        // Ordenar por nome
-        java.util.Arrays.sort(result, (a, b) -> a.getTagName().compareTo(b.getTagName()));
+        TagNode[] result = Arrays.copyOf(tags, size);
+        Arrays.sort(result, (a, b) -> a.getTagName().compareTo(b.getTagName()));
         return result;
     }
 }

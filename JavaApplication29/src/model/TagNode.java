@@ -1,7 +1,7 @@
 package model;
 
 public class TagNode {
-    private String tagName;
+    private final String tagName;
     private int count;
 
     public TagNode(String tagName) {
@@ -20,5 +20,4 @@ public class TagNode {
     public int getCount() {
         return count;
     }
-    
 }
