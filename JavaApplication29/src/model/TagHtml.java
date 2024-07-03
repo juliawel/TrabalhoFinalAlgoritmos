@@ -1,11 +1,11 @@
 package model;
 
-public class HtmlTag {
+public class TagHtml {
     private String name;
     private boolean isOpeningTag;
     private boolean isSingletonTag;
 
-    public HtmlTag(String tag) {
+    public TagHtml(String tag) {
         this.isOpeningTag = !tag.startsWith("</");
         this.name = extractTagName(tag);
         this.isSingletonTag = isSingleton(name);
@@ -18,7 +18,8 @@ public class HtmlTag {
     }
 
     private boolean isSingleton(String name) {
-        String[] singletons = {"meta", "base", "br", "col", "command", "embed", "hr", "img", "input", "link", "param", "source", "!doctype"};
+        String[] singletons = {"meta", "base", "br", "col", "command", "embed", "hr", 
+            "img", "input", "link", "param", "source", "!doctype"};
         for (String singleton : singletons) {
             if (name.equals(singleton)) {
                 return true;
@@ -27,7 +28,7 @@ public class HtmlTag {
         return false;
     }
 
-    public boolean matches(HtmlTag other) {
+    public boolean matches(TagHtml other) {
         return this.name.equals(other.name) && this.isOpeningTag != other.isOpeningTag;
     }
 

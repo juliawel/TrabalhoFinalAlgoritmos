@@ -8,13 +8,13 @@ import javax.swing.table.DefaultTableModel;
 import java.io.*;
 import model.*;
 
-public class HtmlValidatorGUI extends JFrame {
+public class HtmlGUI extends JFrame {
     private JTextField filePathField;
     private JTextArea resultArea;
     private JTable tagTable;
     private DefaultTableModel tableModel;
 
-    public HtmlValidatorGUI() {
+    public HtmlGUI() {
         setTitle("HTML Validator");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,8 +76,8 @@ public class HtmlValidatorGUI extends JFrame {
         resultArea.setText("");
         tableModel.setRowCount(0);
 
-        Stack stack = new Stack();
-        TagCounter counter = new TagCounter();
+        Pilha stack = new Pilha();
+        ContarTags counter = new ContarTags();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -92,7 +92,7 @@ public class HtmlValidatorGUI extends JFrame {
                     int openTagEnd = line.indexOf('>', openTagStart);
                     if (openTagEnd == -1) break;
 
-                    HtmlTag tag = new HtmlTag(line.substring(openTagStart, openTagEnd + 1));
+                    TagHtml tag = new TagHtml(line.substring(openTagStart, openTagEnd + 1));
                     if (tag.isOpeningTag() && !tag.isSingletonTag()) {
                         stack.push(tag);
                     } else if (!tag.isOpeningTag()) {
@@ -100,7 +100,7 @@ public class HtmlValidatorGUI extends JFrame {
                             resultArea.setText("Erro: tag final inesperada " + tag.getName());
                             return;
                         }
-                        HtmlTag openTag = stack.pop();
+                        TagHtml openTag = stack.pop();
                         if (!tag.matches(openTag)) {
                             resultArea.setText("Erro: esperava " + openTag.getName() + " mas encontrou " + tag.getName());
                             return;
@@ -121,22 +121,22 @@ public class HtmlValidatorGUI extends JFrame {
         if (!stack.isEmpty()) {
             resultArea.setText("Erro: faltam tags finais.");
             while (!stack.isEmpty()) {
-                HtmlTag openTag = stack.pop();
+                TagHtml openTag = stack.pop();
                 resultArea.append("\nEsperava " + openTag.getName());
             }
             return;
         }
 
         resultArea.setText("O arquivo está bem formatado.");
-        TagNode[] sortedTags = counter.getSortedTags();
-        for (TagNode tagNode : sortedTags) {
+        TagNo[] sortedTags = counter.getSortedTags();
+        for (TagNo tagNode : sortedTags) {
             tableModel.addRow(new Object[]{tagNode.getTagName(), tagNode.getCount()});
         }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            HtmlValidatorGUI validatorGUI = new HtmlValidatorGUI();
+            HtmlGUI validatorGUI = new HtmlGUI();
             validatorGUI.setVisible(true);
         });
     }

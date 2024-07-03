@@ -1,10 +1,10 @@
 package model;
 
-public class TagNode {
+public class TagNo {
     private final String tagName;
     private int count;
 
-    public TagNode(String tagName) {
+    public TagNo(String tagName) {
         this.tagName = tagName;
         this.count = 1;
     }

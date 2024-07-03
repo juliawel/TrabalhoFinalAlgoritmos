@@ -2,16 +2,16 @@ package model;
 
 import java.util.Arrays;
 
-public class TagCounter {
-    private TagNode[] tags;
+public class ContarTags {
+    private TagNo[] tags;
     private int size;
 
-    public TagCounter() {
-        this.tags = new TagNode[100];
+    public ContarTags() {
+        this.tags = new TagNo[100];
         this.size = 0;
     }
 
-    public void addTag(HtmlTag tag) {
+    public void addTag(TagHtml tag) {
         for (int i = 0; i < size; i++) {
             if (tags[i].getTagName().equals(tag.getName())) {
                 tags[i].increment();
@@ -21,15 +21,15 @@ public class TagCounter {
         if (size == tags.length) {
             resize();
         }
-        tags[size++] = new TagNode(tag.getName());
+        tags[size++] = new TagNo(tag.getName());
     }
 
     private void resize() {
         tags = Arrays.copyOf(tags, tags.length * 2);
     }
 
-    public TagNode[] getSortedTags() {
-        TagNode[] result = Arrays.copyOf(tags, size);
+    public TagNo[] getSortedTags() {
+        TagNo[] result = Arrays.copyOf(tags, size);
         Arrays.sort(result, (a, b) -> a.getTagName().compareTo(b.getTagName()));
         return result;
     }

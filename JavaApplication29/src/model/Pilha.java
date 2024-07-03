@@ -1,20 +1,20 @@
 package model;
 
-public class Stack {
-    private Node top;
+public class Pilha {
+    private No top;
 
-    public void push(HtmlTag tag) {
-        top = new Node(tag, top);
+    public void push(TagHtml tag) {
+        top = new No(tag, top);
     }
 
-    public HtmlTag pop() {
+    public TagHtml pop() {
         if (top == null) return null;
-        HtmlTag tag = top.tag;
+        TagHtml tag = top.tag;
         top = top.next;
         return tag;
     }
 
-    public HtmlTag peek() {
+    public TagHtml peek() {
         return top == null ? null : top.tag;
     }
 
