@@ -1,11 +1,14 @@
 package view;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.table.DefaultTableModel;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import model.*;
 
 public class HtmlGUI extends JFrame {
@@ -15,7 +18,7 @@ public class HtmlGUI extends JFrame {
     private DefaultTableModel tableModel;
 
     public HtmlGUI() {
-        setTitle("HTML Validator");
+        setTitle("Validador HTML");
         setSize(600, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -76,8 +79,8 @@ public class HtmlGUI extends JFrame {
         resultArea.setText("");
         tableModel.setRowCount(0);
 
-        Pilha stack = new Pilha();
-        ContarTags counter = new ContarTags();
+        Pilha stack = new Pilha(100); // Capacidade inicial da pilha definida como 100
+        ContarTags contador = new ContarTags();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -107,14 +110,14 @@ public class HtmlGUI extends JFrame {
                         }
                     }
                     if (tag.isOpeningTag() || tag.isSingletonTag()) {
-                        counter.addTag(tag);
+                        contador.addTag(tag);
                     }
 
                     start = openTagEnd + 1;
                 }
             }
-        } catch (IOException e) {
-            resultArea.setText("Erro ao ler o arquivo: " + e.getMessage());
+        } catch (IOException ex) {
+            resultArea.setText("Erro ao ler o arquivo: " + ex.getMessage());
             return;
         }
 
@@ -128,16 +131,16 @@ public class HtmlGUI extends JFrame {
         }
 
         resultArea.setText("O arquivo está bem formatado.");
-        TagNo[] sortedTags = counter.getSortedTags();
-        for (TagNo tagNode : sortedTags) {
-            tableModel.addRow(new Object[]{tagNode.getTagName(), tagNode.getCount()});
+        String[] tagsOrdenadas = contador.getSortedTags();
+        for (String tagName : tagsOrdenadas) {
+            tableModel.addRow(new Object[]{tagName, contador.getCount(tagName)});
         }
     }
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            HtmlGUI validatorGUI = new HtmlGUI();
-            validatorGUI.setVisible(true);
+            HtmlGUI gui = new HtmlGUI();
+            gui.setVisible(true);
         });
     }
 }

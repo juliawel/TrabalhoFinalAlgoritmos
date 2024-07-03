@@ -1,36 +1,26 @@
 package model;
 
-import java.util.Arrays;
+import java.util.*;
 
 public class ContarTags {
-    private TagNo[] tags;
-    private int size;
+    private Map<String, Integer> tagCounts;
 
     public ContarTags() {
-        this.tags = new TagNo[100];
-        this.size = 0;
+        tagCounts = new HashMap<>();
     }
 
     public void addTag(TagHtml tag) {
-        for (int i = 0; i < size; i++) {
-            if (tags[i].getTagName().equals(tag.getName())) {
-                tags[i].increment();
-                return;
-            }
-        }
-        if (size == tags.length) {
-            resize();
-        }
-        tags[size++] = new TagNo(tag.getName());
+        String tagName = tag.getName();
+        tagCounts.put(tagName, tagCounts.getOrDefault(tagName, 0) + 1);
     }
 
-    private void resize() {
-        tags = Arrays.copyOf(tags, tags.length * 2);
+    public String[] getSortedTags() {
+        String[] tags = tagCounts.keySet().toArray(new String[0]);
+        Arrays.sort(tags);
+        return tags;
     }
 
-    public TagNo[] getSortedTags() {
-        TagNo[] result = Arrays.copyOf(tags, size);
-        Arrays.sort(result, (a, b) -> a.getTagName().compareTo(b.getTagName()));
-        return result;
+    public int getCount(String tagName) {
+        return tagCounts.getOrDefault(tagName, 0);
     }
 }

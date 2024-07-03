@@ -1,24 +1,35 @@
 package model;
 
+import java.util.EmptyStackException;
+
 public class Pilha {
-    private No top;
+    private TagHtml[] elements;
+    private int top;
+
+    public Pilha(int capacity) {
+        elements = new TagHtml[capacity];
+        top = -1;
+    }
 
     public void push(TagHtml tag) {
-        top = new No(tag, top);
+        elements[++top] = tag;
     }
 
     public TagHtml pop() {
-        if (top == null) return null;
-        TagHtml tag = top.tag;
-        top = top.next;
-        return tag;
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return elements[top--];
     }
 
     public TagHtml peek() {
-        return top == null ? null : top.tag;
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return elements[top];
     }
 
     public boolean isEmpty() {
-        return top == null;
+        return top == -1;
     }
 }
